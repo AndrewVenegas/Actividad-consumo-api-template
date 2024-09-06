@@ -24,8 +24,7 @@ function App() {
       Y actualizar valor del state "pokemonData"
       */
 
-      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
-      setPokemonData(response.data);
+      
     } catch (error) {
       console.log(error);
     }
@@ -46,9 +45,7 @@ function App() {
 
       // Hint: usar <response>.data.results.map(pokemon => pokemon.name)
 
-      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${quantity}`)
-      const pokemonList = response.data.results.map(pokemon => pokemon.name);
-      setAllPokemonNames(pokemonList);
+
     } catch (error) {
       console.log(error);
     }
