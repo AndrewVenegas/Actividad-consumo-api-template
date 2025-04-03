@@ -5,26 +5,28 @@ import './App.css'
 function App() {
   /*
   states
-    pokemonName: El nombre del Pokémon por el que queremos consultar en la API
+    inputPokemonName: El nombre del Pokémon por el que queremos consultar en la API ingresado en en el input
+    selectedPokemonName: El nombre del Pokémon por el que queremos consultar en la API seleccionado en el dropdown
     allPokemonNames: Los nombres de todos los Pokémon
     pokemonData: La información de Pokémon que recibimos de la API
   */
-  const [pokemonName, setPokemonName] = useState(""); // Leer comentario al final del archivo
+
+  const [inputPokemonName, setInputPokemonName] = useState("");
+  const [selectedPokemonName, setSelectedPokemonName] = useState("");
   const [allPokemonNames, setAllPokemonNames] = useState([]);
   const [pokemonData, setPokemonData] = useState(null);
 
   // COMPLETAR
-  const getPokemonData = async () => {
+  const getPokemonData = async (pokemonName) => {
     try {
       /*
-      Consultar la API con,
+      Consultar la API con, 
         Endpoint: /pokemon/<pokemonName>
         Método: GET
 
       Y actualizar valor del state "pokemonData"
       */
 
-      
     } catch (error) {
       console.log(error);
     }
@@ -45,21 +47,26 @@ function App() {
 
       // Hint: usar <response>.data.results.map(pokemon => pokemon.name)
 
-
     } catch (error) {
       console.log(error);
     }
   }
 
   /*
-  De aquí en adelante NO necesitan editar nada,
+  DE AQUI EN ADELANTE NO NECESITAN EDITAR NADA,
   pero los invitamos a explorar!
   */
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault(); // Evitar que el formulario recargue la página
-    getPokemonData();
+  const handleFormSubmit1 = (event) => {
+    event.preventDefault();
+    getPokemonData(inputPokemonName);
   };
+  
+  const handleFormSubmit2 = (event) => {
+    event.preventDefault();
+    getPokemonData(selectedPokemonName);
+  };
+  
 
   useEffect(() => {
     getPokemonNames(100);
@@ -70,26 +77,25 @@ function App() {
       <h1>Consulta PokeApi</h1>
 
       <div className='flex row'>
-        <form onSubmit={handleFormSubmit} className='flex column'>
+        <form onSubmit={handleFormSubmit1} className='flex column'>
           <h3>Escribe el nombre de un Pokémon</h3>
           <input
-            value={pokemonName}
-            onChange={(event) => { setPokemonName(event.target.value) }} />
-          <p><i>Debe ser completamente en minúscula</i></p>
-          <button type="submit" disabled={pokemonName === ""}>Enviar</button>
+            value={inputPokemonName}
+            onChange={(event) => { setInputPokemonName(event.target.value) }} />
+          <button type="submit" disabled={inputPokemonName === ""}>Enviar</button>
         </form>
 
-        <form onSubmit={handleFormSubmit} className='flex column'>
+        <form onSubmit={handleFormSubmit2} className='flex column'>
           <h3>Selecciona un Pokemón</h3>
           <select
-            value={pokemonName}
-            onChange={(event) => { setPokemonName(event.target.value) }}>
+            value={selectedPokemonName}
+            onChange={(event) => { setSelectedPokemonName(event.target.value) }}>
             <option value="">Selecciona un Pokémon</option>
             {allPokemonNames.map((name, index) => (
               <option key={index} value={name}>{name}</option>
             ))}
           </select>
-          <button type="submit" disabled={pokemonName === ""}>Enviar</button>
+          <button type="submit" disabled={selectedPokemonName === ""}>Enviar</button>
         </form>
       </div>
 
@@ -108,9 +114,3 @@ function App() {
 
 export default App
 
-/*
-Por simplicidad de la actividad,
-se usa el mismo state como value en ambos formularios.
-Notarán que esto no es ideal,
-y que genera comportamientos no deseados en los formularios.
-*/
